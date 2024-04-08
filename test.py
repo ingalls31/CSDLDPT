@@ -1,8 +1,5 @@
-import os
-
-i=1
-for root, dir, files in os.walk('audio'):
-    for file in files:
-        i+=1
-
+from tqdm import tqdm
+i=0
+for i in tqdm(range(1000000000)):
+    i+=1
 print(i)
