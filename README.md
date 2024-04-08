@@ -1,3 +1,3 @@
-## Top 2 người đẹp trai nhất PTIT
-# Top 1: Đặng Bảo Việt
-#### Top 2: ko có người thứ hai..
+- audio_spilt.py: cắt các file âm thanh trong data thành các short 10s, chuyển vào audio
+- extract_1.py: trích rút đặc trưng sử dụng thư viện librosa
+- extract_2.py: trích rút đặc trưng thủ công, không sử dụng thư viện hỗ trợ
