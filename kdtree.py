@@ -9,7 +9,7 @@ class CustomKDTree:
     
     def query_nn(self, sound_query: Sound):
         distance, index = self.kd_tree.query(sound_query.features)
-        return self.sounds[index], distance
+        return self.sounds[index].path, distance
     
     def query_knn(self, sound_query: Sound, k: int):
         distances, indexes = self.kd_tree.query(sound_query.features, k)
