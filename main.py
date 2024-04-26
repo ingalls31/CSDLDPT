@@ -8,7 +8,9 @@ while True:
     query = input(">")
     if query == "exit": break
     elif query == "init":
-        init = Init("audio")
+        init = Init(path_to_sound_folder="audio",
+                    path_to_birds="birds",
+                    path_to_query="query")
         init.init()
     elif query.startswith("find "):
         file_path = "query/" + query[5:]
