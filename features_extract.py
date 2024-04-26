@@ -14,11 +14,11 @@ class Init:
         x,sr = librosa.load(path)   
         
         ave_energy = np.average(x*x)
-        rms = librosa.feature.rms(x)
-        spec_cent = librosa.feature.spectral_centroid(x,sr)
-        spec_bw = librosa.feature.spectral_bandwidth(x,sr)
-        rolloff = librosa.feature.spectral_rolloff(x,sr)
-        zcr = librosa.feature.zero_crossing_rate(x)
+        rms = librosa.feature.rms(y=x)
+        spec_cent = librosa.feature.spectral_centroid(y=x,sr=sr)
+        spec_bw = librosa.feature.spectral_bandwidth(y=x,sr=sr)
+        rolloff = librosa.feature.spectral_rolloff(y=x,sr=sr)
+        zcr = librosa.feature.zero_crossing_rate(y=x)
         
         vector = [ave_energy, np.mean(rms), np.mean(spec_cent), 
                 np.mean(spec_bw), np.mean(rolloff), np.mean(zcr)]
@@ -29,12 +29,14 @@ class Init:
         folder = os.listdir(self.path)
         vectors = []
         sounds = []
-        for file in folder:
+        for file in tqdm(folder, colour="yellow"):
             sound_path = self.path + "/" + file
             vector = self.features(sound_path)
             vectors.append(vector)
             sound = Sound(vector, sound_path)
             sounds.append(sound)
+        
+        print("Extraction completed.")
             
         Min = np.vstack(vectors).min(axis=0)
         Max = np.vstack(vectors).max(axis=0)
@@ -42,8 +44,12 @@ class Init:
             pickle.dump(Min, output, pickle.HIGHEST_PROTOCOL)
             pickle.dump(Max, output, pickle.HIGHEST_PROTOCOL)
         
+        print("Saved normalize value.")
+        
         with open('sounds.obj', 'wb') as output:
             pickle.dump(sounds, output, pickle.HIGHEST_PROTOCOL)
+        
+        print("Saved sound's list.")
 
 class Extract:
     def __init__(self, normalize_path : str, sound_path : str):
@@ -61,11 +67,11 @@ class Extract:
         x,sr = librosa.load(self.sound_path)   
         
         ave_energy = np.average(x*x)
-        rms = librosa.feature.rms(x)
-        spec_cent = librosa.feature.spectral_centroid(x,sr)
-        spec_bw = librosa.feature.spectral_bandwidth(x,sr)
-        rolloff = librosa.feature.spectral_rolloff(x,sr)
-        zcr = librosa.feature.zero_crossing_rate(x)
+        rms = librosa.feature.rms(y=x)
+        spec_cent = librosa.feature.spectral_centroid(y=x,sr=sr)
+        spec_bw = librosa.feature.spectral_bandwidth(y=x,sr=sr)
+        rolloff = librosa.feature.spectral_rolloff(y=x,sr=sr)
+        zcr = librosa.feature.zero_crossing_rate(y=x)
         
         vector = [ave_energy, np.mean(rms), np.mean(spec_cent), 
                 np.mean(spec_bw), np.mean(rolloff), np.mean(zcr)]
