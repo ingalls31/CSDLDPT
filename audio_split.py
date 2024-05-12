@@ -1,5 +1,8 @@
 from pydub import AudioSegment
 import os
+from tqdm import tqdm
+
+len_audio = 800
 
 def split_mp3(input_file, target_folder, split_length=10, max_splits=10):
     audio = AudioSegment.from_mp3(input_file)
@@ -7,12 +10,12 @@ def split_mp3(input_file, target_folder, split_length=10, max_splits=10):
     if not os.path.exists(target_folder):
         os.makedirs(target_folder)
     
-    total_length_seconds = len(audio) // 1000
+    total_length_seconds = len(audio) // len_audio
     number_of_splits = min(max_splits, total_length_seconds // split_length)
     
-    for i in range(number_of_splits):
-        start_ms = i * split_length * 1000
-        end_ms = start_ms + split_length * 1000
+    for i in tqdm(range(number_of_splits)):
+        start_ms = i * split_length * len_audio
+        end_ms = start_ms + split_length * len_audio
         
         split_audio = audio[start_ms:end_ms]
         

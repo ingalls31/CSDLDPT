@@ -1,34 +1,74 @@
 Xây dựng hệ CSDL lưu trữ và tìm kiếm tiếng chim hót.
 1.Hãy xây dựng/sưu tầm một bộ dữ liệu gồm ít nhất 100 files âm thanh về tiếng chim, các file có cùng độ dài 
 (SV tùy chọn định dạng file âm thanh).
-- 126 file âm thanh về 13 loại chim
+- 128 file âm thanh về 13 loại chim
+    1. Chim đầu đỏ đen _ Black Redstart
+    2. Chim sáo _ Blackbird
+    3. Chim Cu rốc đầu đỏ _ Bluethroat
+    4. Chim tầm gửi _ Mistle Thrush
+    5. Chim sơn ca _ Nightingale
+    6. Chim phớt đầu đỏ _ Redstart
+    7. Chim dầm cầy đỏ _ Redwing
+    8. Chim đỏ mỏ _ Robin
+    9. Chim chẹt đá _ Stonechat
+    10. Chim chẹt cỏ _ Windchat
+    11. Chim dầm cầy nhốt _ Ring Ouzel
+    13. Chim chẹt đầu trắng phương Bắc _ Northern Wheatear
 - định dạng: .mp3
-- độ dài mỗi file: 10 giây
+- độ dài mỗi file: 8 giây
 - tiền xử lí âm thanh:
     + lọc khoảng trắng: loại bỏ các frame có âm lượng thấp hơn ngưỡng cố định
-    + lọc nhiễu: tính toán biểu đồ phổ thời gian ngắn (STFT) của tín hiệu âm thanh nhiễu
-                ước lượng phổ năng lượng nhiễu và áp dụng ngưỡng để xác định những phần cần giảm trong biểu đồ phổ
 
 2.Hãy xây dựng một bộ thuộc tính để nhận diện tiếng chim hót của các file âm thanh khác nhau từ bộ dữ liệu đã thu thập. 
 Trình bày cụ thể về các thuộc tính này.
+- Mỗi frame tín hiệu có độ dài 2048 mẫu, độ chồng chéo frame là 512 mẫu.
+    VD: frame 1: [0.. 2048]
+        frame 2: [512 .. 512+2048]
+
+- Tại sao lại cần chia tín hiệu âm thanh thành các frame nhỏ hơn?
+
 - Bộ thuộc tính được trích xuất:
     + average energy: năng lượng trung bình
-    + rms: trung bình căn bậc hai của năng lượng âm thanh trong từng frame
-    + zero crossing rate: tốc độ đổi dấu của tín hiệu
-    + spectral centroid: trọng tâm của phổ âm thanh
-    + spectral bandwidth: độ rộng của phổ âm thanh
-    + spectral rolloff: độ suy giảm phổ âm thanh, đo sự phân bố năng lượng tần số trong từng frame
+    
+    + rms: trung bình căn bậc hai của năng lượng âm thanh trong một frame
 
-3.Xây dựng hệ thống tìm kiếm tiếng chim với đầu vào là một file âm thanh mới của một loài chim nào đó 
+    + zero crossing rate: biểu diễn tốc độ đổi dấu của tín hiệu,
+                        tính số lần mà tín hiệu âm thanh vượt qua mức không trong một frame.
+            Công thức: ZCR = (1/2)*(1/N)*∑(n=1 to N-1)|sign[x(n)] - sign[x(n-1)]|
+                Hàm sign[x(n)]: return  1 if x(n) > 0
+                                return  0 if x(n) = 0
+                                return -1 if x(n) < 0
+    
+    + spectral centroid: trọng tâm của phổ âm thanh trên mỗi frame
+            Công thức:  b1: thực hiện fft (fast fourier transfer) với tín hiệu x
+                            sau khi thực hiện fft thì trả về kết quả là 1 số phức z = a + bi
+        
+                        b2: centroid = (f * M(f))/f
+                            M(f) = |a + bi| = sqrt(a*a + b*b)
+
+    + spectral bandwidth: độ rộng của phổ âm thanh 
+            Công thức = MAX(f) - MIN(f)
+
+    + spectral rolloff: 
+
+3. Xây dựng hệ thống tìm kiếm tiếng chim với đầu vào là một file âm thanh mới của một loài chim nào đó 
 (loài đã có và không có trong dữ liệu), đầu ra là 3 files giống nhất, xếp thứ tự giảm dần về độ tương đồng với âm thanh đầu vào.
 a.Trình bày sơ đồ khối của hệ thống và quy trình thực hiện yêu cầu của đề bài.
 b.Trình bày quá trình trích rút, lưu trữ và sử dụng các thuộc tính để tìm kiếm âm thanh trong hệ thống.
 
-4.Demo hệ thống và đánh giá kết quả đã đạt được.
+4. Demo hệ thống và đánh giá kết quả đã đạt được.
 
 - hệ thống hoạt động như thế nào?
 nhập tên file âm thanh -> hệ thống trích rút đặc trưng từ file âm thanh đó -> sử dụng truy vấn knn (k nearest neighbor)
     -> đưa ra k vector đặc trưng có độ tương đồng cao nhất
+
+- em làm tnao để phân biệt 2 loài chim?
+    + cường độ âm thanh, độ to
+    + tiết tấu, nhịp điệu
+    + tone, độ cao
+    + âm sắc
+
+- 6 đặc trưng được trích xuất có liên quan gì tới những đặc điểm nói trên?
 
 - lưu trữ các đặc trưng đó như thế nào?
 các thuộc tính được lưu trữ dưới dạng các vector đặc trưng
@@ -37,5 +77,27 @@ các vector được lưu trữ trong cấu trúc cây k-d
 - em quản lí các file âm thanh như thế nào?
 
 - em lấy nguồn âm thanh ở đâu?
-sưu tầm ở trên internet
+sưu tầm ở trên internet, ở một trang web sưu tầm tiếng chim
 
+data:   
+    hiểu các data có đặc trưng gì để từ đó trích rút ra đặc trưng
+    hiểu xem trong data của mình có những gì
+    ví dụ âm thanh, đàn tranh khác gì violon, đặc tính âm thanh của đàn
+    đặc tính của đàn này khác 
+    đồ vật có gì giống và khác nhau không
+    ý tưởng thu thập, xây dựng bộ dữ liệu
+    vì sao độ dài của file là như vậy, ý tưởng của 20s, 1 phút
+    trình bày về dữ liệu
+    tại sao lại 18 loài, ý tưởng nào e thu thập nhiều thế (đôi khi thầy chỉ cần 2 loài, thậm chí 1 loài)
+    các ảnh có gì chung, riêng
+    đặc điểm giống và khác nhau của các file
+
+kiến thức:
+    bài toán thầy giao có phải bài toán phân loại không
+    trích rút đặc trưng gì, nội dung của đặc trưng, kiến thức của đặc trưng,
+    tại sao đặc trưng ấy ko có tên là ...
+    thu thập các đặc trưng gì, tên gọi các đặc trưng, 
+    đặc trưng biểu diễn thông tin gì, có âm được không
+    đơn thuần là tìm ảnh giống, ko phải phân loại
+    thông tin về hình dạng được biểu diễn bằng con số gì, thông số gì, làm sao để biểu diễn thông tin về hình dạng
+    có đường bao, thì đường bao được biểu diễn như nào, các con số, dữ liệu biểu diễn cái gì

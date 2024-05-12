@@ -19,8 +19,8 @@ class Init:
         x,sr = librosa.load(path) # sr : sample rate
         
         ave_energy = np.average(x*x) # năng lượng trung bình
-        rms = librosa.feature.rms(y=x) # 
-        zcr = librosa.feature.zero_crossing_rate(y=x) # tốc độ đổi dấu
+        rms = librosa.feature.rms(y=x) # căn bậc 2 năng lượng trung bình trong từng frame 
+        zcr = librosa.feature.zero_crossing_rate(y=x) # số lần tín hiệu đổi dấu
         
         spec_cent = librosa.feature.spectral_centroid(y=x,sr=sr)
         spec_bw = librosa.feature.spectral_bandwidth(y=x,sr=sr)
