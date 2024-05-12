@@ -16,14 +16,15 @@ class Init:
         self.query = path_to_query
     
     def features(self, path):
-        x,sr = librosa.load(path)   
+        x,sr = librosa.load(path) # sr : sample rate
         
-        ave_energy = np.average(x*x)
-        rms = librosa.feature.rms(y=x)
+        ave_energy = np.average(x*x) # năng lượng trung bình
+        rms = librosa.feature.rms(y=x) # 
+        zcr = librosa.feature.zero_crossing_rate(y=x) # tốc độ đổi dấu
+        
         spec_cent = librosa.feature.spectral_centroid(y=x,sr=sr)
         spec_bw = librosa.feature.spectral_bandwidth(y=x,sr=sr)
         rolloff = librosa.feature.spectral_rolloff(y=x,sr=sr)
-        zcr = librosa.feature.zero_crossing_rate(y=x)
         
         vector = [ave_energy, np.mean(rms), np.mean(spec_cent), 
                 np.mean(spec_bw), np.mean(rolloff), np.mean(zcr)]
@@ -43,7 +44,7 @@ class Init:
         print("Clean up completed.")
         
         dataset = os.listdir(self.path)
-        n_of_sample = len(dataset) * 4 // 5
+        n_of_sample = len(dataset) * 4 // 5 # birds : query = 4 : 1
         audio = random.sample(dataset, n_of_sample)
         
         print("Moving audio file to folder birds..")

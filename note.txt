@@ -1,0 +1,41 @@
+Xây dựng hệ CSDL lưu trữ và tìm kiếm tiếng chim hót.
+1.Hãy xây dựng/sưu tầm một bộ dữ liệu gồm ít nhất 100 files âm thanh về tiếng chim, các file có cùng độ dài 
+(SV tùy chọn định dạng file âm thanh).
+- 126 file âm thanh về 13 loại chim
+- định dạng: .mp3
+- độ dài mỗi file: 10 giây
+- tiền xử lí âm thanh:
+    + lọc khoảng trắng: loại bỏ các frame có âm lượng thấp hơn ngưỡng cố định
+    + lọc nhiễu: tính toán biểu đồ phổ thời gian ngắn (STFT) của tín hiệu âm thanh nhiễu
+                ước lượng phổ năng lượng nhiễu và áp dụng ngưỡng để xác định những phần cần giảm trong biểu đồ phổ
+
+2.Hãy xây dựng một bộ thuộc tính để nhận diện tiếng chim hót của các file âm thanh khác nhau từ bộ dữ liệu đã thu thập. 
+Trình bày cụ thể về các thuộc tính này.
+- Bộ thuộc tính được trích xuất:
+    + average energy: năng lượng trung bình
+    + rms: trung bình căn bậc hai của năng lượng âm thanh trong từng frame
+    + zero crossing rate: tốc độ đổi dấu của tín hiệu
+    + spectral centroid: trọng tâm của phổ âm thanh
+    + spectral bandwidth: độ rộng của phổ âm thanh
+    + spectral rolloff: độ suy giảm phổ âm thanh, đo sự phân bố năng lượng tần số trong từng frame
+
+3.Xây dựng hệ thống tìm kiếm tiếng chim với đầu vào là một file âm thanh mới của một loài chim nào đó 
+(loài đã có và không có trong dữ liệu), đầu ra là 3 files giống nhất, xếp thứ tự giảm dần về độ tương đồng với âm thanh đầu vào.
+a.Trình bày sơ đồ khối của hệ thống và quy trình thực hiện yêu cầu của đề bài.
+b.Trình bày quá trình trích rút, lưu trữ và sử dụng các thuộc tính để tìm kiếm âm thanh trong hệ thống.
+
+4.Demo hệ thống và đánh giá kết quả đã đạt được.
+
+- hệ thống hoạt động như thế nào?
+nhập tên file âm thanh -> hệ thống trích rút đặc trưng từ file âm thanh đó -> sử dụng truy vấn knn (k nearest neighbor)
+    -> đưa ra k vector đặc trưng có độ tương đồng cao nhất
+
+- lưu trữ các đặc trưng đó như thế nào?
+các thuộc tính được lưu trữ dưới dạng các vector đặc trưng
+các vector được lưu trữ trong cấu trúc cây k-d
+
+- em quản lí các file âm thanh như thế nào?
+
+- em lấy nguồn âm thanh ở đâu?
+sưu tầm ở trên internet
+
