@@ -18,6 +18,7 @@ Xây dựng hệ CSDL lưu trữ và tìm kiếm tiếng chim hót.
 - độ dài mỗi file: 8 giây
 - tiền xử lí âm thanh:
     + lọc khoảng trắng: loại bỏ các frame có âm lượng thấp hơn ngưỡng cố định
+        ngưỡng: -40 dB (deciben)
 
 2.Hãy xây dựng một bộ thuộc tính để nhận diện tiếng chim hót của các file âm thanh khác nhau từ bộ dữ liệu đã thu thập. 
 Trình bày cụ thể về các thuộc tính này.
@@ -30,9 +31,9 @@ Trình bày cụ thể về các thuộc tính này.
 - Bộ thuộc tính được trích xuất:
     + average energy: năng lượng trung bình
     
-    + rms: trung bình căn bậc hai của năng lượng âm thanh trong một frame
+    + rms: trung bình căn bậc hai của năng lượng âm thanh trong một frame (root mean square)
 
-    + zero crossing rate: biểu diễn tốc độ đổi dấu của tín hiệu,
+    + zero crossing rate: biểu diễn tần số trung bình
                         tính số lần mà tín hiệu âm thanh vượt qua mức không trong một frame.
             Công thức: ZCR = (1/2)*(1/N)*∑(n=1 to N-1)|sign[x(n)] - sign[x(n-1)]|
                 Hàm sign[x(n)]: return  1 if x(n) > 0
@@ -49,7 +50,7 @@ Trình bày cụ thể về các thuộc tính này.
     + spectral bandwidth: độ rộng của phổ âm thanh 
             Công thức = MAX(f) - MIN(f)
 
-    + spectral rolloff: 
+    + spectral rolloff: ngưỡng mà âm phổ lớn hơn 85% năng lượng tín hiệu
 
 3. Xây dựng hệ thống tìm kiếm tiếng chim với đầu vào là một file âm thanh mới của một loài chim nào đó 
 (loài đã có và không có trong dữ liệu), đầu ra là 3 files giống nhất, xếp thứ tự giảm dần về độ tương đồng với âm thanh đầu vào.

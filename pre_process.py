@@ -7,7 +7,7 @@ for f in tqdm(os.listdir("data")):
     print(f[:-4])
     sound = AudioSegment.from_file("data/"+f)
 
-    chunks = split_on_silence(sound, min_silence_len=1000, silence_thresh=-40)
+    chunks = split_on_silence(sound, min_silence_len=1000, silence_thresh=-40) #dBMS
 
     filtered_sound = chunks[0]
     for chunk in chunks[1:]:
