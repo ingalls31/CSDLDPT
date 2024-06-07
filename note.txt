@@ -102,3 +102,28 @@ kiến thức:
     đơn thuần là tìm ảnh giống, ko phải phân loại
     thông tin về hình dạng được biểu diễn bằng con số gì, thông số gì, làm sao để biểu diễn thông tin về hình dạng
     có đường bao, thì đường bao được biểu diễn như nào, các con số, dữ liệu biểu diễn cái gì
+
+Ques1: Đối với 2 file âm thanh có dung lượng khác nhau, làm cách nào để so sánh?
+        Chia file mỗi âm thanh thành các frames có dung lượng bằng nhau.
+        Trượt file âm thanh có dung lượng nhỏ hơn (số frames ít hơn) trên file còn lại.
+        Quá trình trượt sẽ cho ra vector đặc trưng chứa dữ liệu về độ tương đồng của các frames dựa trên quá trình trượt.
+        So sánh các "vector tương đồng" này để tìm ra file âm thanh có độ tương đồng cao nhất.
+
+        Ví dụ:
+            Có 2 file âm thanh audio1 và audio2 (.mp3)
+            Tiến hành chia tách frames: audio1 chứa 100 frames, audio2 chứa 150 frames.
+            Vì dung lượng audio1 nhỏ hơn audio2 nên tiến hành trượt audio1 trên audio2. (Cơ chế trượt giống với nhân tích chập ma trận 1 chiều)
+            Có thể tùy chỉnh số lần trượt (chiều của "vector tương đồng") dựa trên overlap (độ chồng chéo).
+            Để dễ hình dung, ở ví dụ này sử dụng overlap  = 40 frames
+                Step 1:    
+                    audio1: | frame 1   | frame 2   | frame 3   | . . .   | frame 100 |
+                    audio2: | frame 1   | frame 2   | frame 3   | . . .   | frame 100 |
+                Step 2:    
+                    audio1: | frame 1   | frame 2   | frame 3   | . . .   | frame 100 |
+                    audio2: | frame 41  | frame 42  | frame 43  | . . .   | frame 140 | // dịch trái 40 frames = overlap
+                Step 3:
+                    . . .
+            Mỗi output của mỗi step có thể được tính bằng mahattan vector 6 đặc trưng trung bình của các frames. 
+            Mỗi output của mỗi step là một đặc trưng số biểu diễn độ tương đồng của mỗi step đó.
+            Số lượng step là số chiều của "vector tương đồng".
+            So sánh các "vector tương đồng" bằng mahattan, mahattan càng nhỏ => độ tương đồng càng cao.
