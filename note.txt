@@ -1,7 +1,7 @@
 Xây dựng hệ CSDL lưu trữ và tìm kiếm tiếng chim hót.
 1.Hãy xây dựng/sưu tầm một bộ dữ liệu gồm ít nhất 100 files âm thanh về tiếng chim, các file có cùng độ dài 
 (SV tùy chọn định dạng file âm thanh).
-- 128 file âm thanh về 13 loại chim
+- 128 (new=110) file âm thanh về 13 loại chim
     1. Chim đầu đỏ đen _ Black Redstart
     2. Chim sáo _ Blackbird
     3. Chim Cu rốc đầu đỏ _ Bluethroat

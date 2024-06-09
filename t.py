@@ -1,8 +1,6 @@
-import librosa
-import numpy as np
+import os
 
-x, sr = librosa.load("data/Blackbird.mp3")
-
-r = librosa.feature.spectral_rolloff(y=x, sr=sr)
-print(r)
-
+c=0
+for f in os.listdir("audio"):
+    c+=1
+print(c)
