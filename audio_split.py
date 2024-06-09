@@ -32,7 +32,7 @@ def split_mp3(input_file, audio_folder, query_folder, split_length=5):
         
     split_audio = audio[n_splits*split_length:]
     
-    split_filename = os.path.join(query_folder, f'{os.path.basename(input_file)[:-4]}_{n_splits + i + 1}.mp3')
+    split_filename = os.path.join(query_folder, f'{os.path.basename(input_file)[:-4]}.mp3')
     split_audio.export(split_filename, format="mp3")
     
     print(f'Saved: {split_filename}')
