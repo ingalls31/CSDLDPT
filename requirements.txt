@@ -1,0 +1,6 @@
+pydub
+tqdm
+librosa
+numpy
+scipy
+noisereduce
