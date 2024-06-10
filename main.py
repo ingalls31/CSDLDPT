@@ -1,6 +1,6 @@
 from audio import Sound
 from features_extract import Init, Extract
-from kdtree import CustomKDTree
+from kdtree import CustomKDTree, Queries
 import pickle
 import os
 
@@ -8,10 +8,9 @@ while True:
     query = input(">")
     if query == "exit": break
     elif query == "init":
-        init = Init(path_to_sound_folder="audio",
-                    path_to_birds="birds",
-                    path_to_query="query")
+        init = Init(path_to_sound_folder="audio")
         init.init()
+        print()
     elif query.startswith("find "):
         file_path = "query/" + query[5:]
         if not os.path.isfile(file_path): print(f"File {file_path} was not found.")
@@ -19,14 +18,14 @@ while True:
             with open("sounds.obj", "rb") as s:
                 sounds = pickle.load(s)
 
-            tree = CustomKDTree(sounds=sounds)
+            queries = Queries(sounds=sounds)
 
             extract = Extract(normalize_path="normalize.obj", sound_path=file_path)
             vector = extract.features()
-
-            query = Sound(features=vector, path=file_path)
-            result = tree.query_knn(sound_query=query, k=5)
-            for path, dis in result:
-                print(f"{path} --> {dis}")
-    
-    else: print("Query does not exist.")
+            q = Sound(features=vector, path=file_path)
+            
+            results = queries.query(input=q,k=3)
+            for r in results:
+                print(r)
+            print()
+    else: print("Query does not exist.\n")

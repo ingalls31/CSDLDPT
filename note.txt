@@ -1,7 +1,7 @@
 Xây dựng hệ CSDL lưu trữ và tìm kiếm tiếng chim hót.
 1.Hãy xây dựng/sưu tầm một bộ dữ liệu gồm ít nhất 100 files âm thanh về tiếng chim, các file có cùng độ dài 
 (SV tùy chọn định dạng file âm thanh).
-- 128 (new=110) file âm thanh về 13 loại chim
+- 128 (new=161) file âm thanh về 13 loại chim
     1. Chim đầu đỏ đen _ Black Redstart
     2. Chim sáo _ Blackbird
     3. Chim Cu rốc đầu đỏ _ Bluethroat
@@ -18,7 +18,7 @@ Xây dựng hệ CSDL lưu trữ và tìm kiếm tiếng chim hót.
 - độ dài mỗi file: 8 giây
 - tiền xử lí âm thanh:
     + lọc khoảng trắng: loại bỏ các frame có âm lượng thấp hơn ngưỡng cố định
-        ngưỡng: -40 dB (deciben)
+        ngưỡng: -40 dBMS
 
 2.Hãy xây dựng một bộ thuộc tính để nhận diện tiếng chim hót của các file âm thanh khác nhau từ bộ dữ liệu đã thu thập. 
 Trình bày cụ thể về các thuộc tính này.
@@ -127,3 +127,22 @@ Ques1: Đối với 2 file âm thanh có dung lượng khác nhau, làm cách n�
             Mỗi output của mỗi step là một đặc trưng số biểu diễn độ tương đồng của mỗi step đó.
             Số lượng step là số chiều của "vector tương đồng".
             So sánh các "vector tương đồng" bằng mahattan, mahattan càng nhỏ => độ tương đồng càng cao.
+
+- high accuracy:
+    + Redwing: 3/3
+    + Robin: 2/3
+    + Ring Ouzel: 2/3
+    + Bluethroat: 2/3
+    + Blackbird: 2/3
+    + Redstart: 2/3
+
+- normal accuracy:
+    + Mistle Thrush: 1/3
+    + Nightingale: 1/3
+    + Northern Wheatear: 1/3
+    + Windchat: 1/3
+
+- low accuracy:
+    + Song Thrush: 0/3
+    + Stonechat: 0/3
+    + Black Redstart: 0/3

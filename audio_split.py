@@ -4,7 +4,7 @@ from tqdm import tqdm
 
 len_audio = 1000 # ms
 
-def split_mp3(input_file, audio_folder, query_folder, split_length=5):
+def split_mp3(input_file, audio_folder, query_folder, split_length=3):
     audio = AudioSegment.from_mp3(input_file)
     
     if not os.path.exists(audio_folder):
@@ -13,7 +13,7 @@ def split_mp3(input_file, audio_folder, query_folder, split_length=5):
     if not os.path.exists(query_folder):
         os.makedirs(query_folder)
     
-    max_splits = (len(audio) // len_audio) // split_length    
+    max_splits = min((len(audio) // len_audio) // split_length, 15)    
     n_splits = int(max_splits * 0.7) # 70% for audio, 30% for query
     split_length *= len_audio
     
