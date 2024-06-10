@@ -43,24 +43,14 @@ class Init:
         
     def init(self):     
         folder = os.listdir(self.path)
-        vectors = []
         sounds = []
         for file in tqdm(folder, colour="yellow"):
             sound_path = self.path + "/" + file
             vector = self.features(sound_path)
-            vectors.append(vector)
             sound = Sound(vector, sound_path)
             sounds.append(sound)
         
         print("Extraction completed.")
-            
-        Min = np.vstack(vectors).min(axis=0)
-        Max = np.vstack(vectors).max(axis=0)
-        with open('normalize.obj', 'wb') as output:
-            pickle.dump(Min, output, pickle.HIGHEST_PROTOCOL)
-            pickle.dump(Max, output, pickle.HIGHEST_PROTOCOL)
-        
-        print("Saved normalize value at normalize.obj.")
         
         with open('sounds.obj', 'wb') as output:
             pickle.dump(sounds, output, pickle.HIGHEST_PROTOCOL)
@@ -73,11 +63,6 @@ class Extract:
         self.sound_path = sound_path # path to sound file
     
     def normalize(self, vector):
-        # with open(self.normalize_path, 'rb') as input:
-        #     min = pickle.load(input)
-        #     max = pickle.load(input)
-        #     vector = np.array(vector)
-        
         min = np.min(vector)
         max = np.max(vector)
         
