@@ -30,8 +30,10 @@ Trình bày cụ thể về các thuộc tính này.
 
 - Bộ thuộc tính được trích xuất:
     + average energy: năng lượng trung bình
+    tổng bình phương giá trị tin hiệu chia cho tổng số mẫu
     
     + rms: trung bình căn bậc hai của năng lượng âm thanh trong một frame (root mean square)
+    căn bậc hai của tổng bình phương của các giá trị tín hiệu chia cho tổng số mẫu
 
     + zero crossing rate: biểu diễn tần số trung bình
                         tính số lần mà tín hiệu âm thanh vượt qua mức không trong một frame.
@@ -39,6 +41,10 @@ Trình bày cụ thể về các thuộc tính này.
                 Hàm sign[x(n)]: return  1 if x(n) > 0
                                 return  0 if x(n) = 0
                                 return -1 if x(n) < 0
+    với mỗi tín hiệu lấy dấu của tín hiệu, tính tổng bằng công thức 
+    với x(n) là giá trị mẫu
+    tổng giá trị của x(n) - x(n - 1) 
+    chia cho tổng số mẫu nhân 1 /2 
     
     + spectral centroid: trọng tâm của phổ âm thanh trên mỗi frame
             Công thức:  b1: thực hiện fft (fast fourier transfer) với tín hiệu x
@@ -46,10 +52,12 @@ Trình bày cụ thể về các thuộc tính này.
         
                         b2: centroid = (f * M(f))/f
                             M(f) = |a + bi| = sqrt(a*a + b*b)
+    tổng của (tần số f * biên độ của phổ) / tổng biên độ của phổ
 
     + spectral bandwidth: độ rộng của phổ âm thanh 
-            Công thức = MAX(f) - MIN(f)
-
+            Công thức = 
+    
+   căn bậc hai [ tổng bình phương chênh lệch của tần số với tần số trung tâm * giá trị phổ tại 1 frame  / tổng các giá trị phổ ]
     + spectral rolloff: ngưỡng mà âm phổ lớn hơn 85% năng lượng tín hiệu
 
 3. Xây dựng hệ thống tìm kiếm tiếng chim với đầu vào là một file âm thanh mới của một loài chim nào đó 

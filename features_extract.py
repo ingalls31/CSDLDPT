@@ -58,8 +58,7 @@ class Init:
         print("Saved sound's list at sounds.obj.")
 
 class Extract:
-    def __init__(self, normalize_path : str, sound_path : str):
-        self.normalize_path = normalize_path # path to normalize file
+    def __init__(self, sound_path : str):
         self.sound_path = sound_path # path to sound file
     
     def normalize(self, vector):
@@ -71,12 +70,18 @@ class Extract:
     def features(self):
         x,sr = librosa.load(self.sound_path)   
         
-        ave_energy = np.average(x*x)
-        rms = librosa.feature.rms(y=x)
-        spec_cent = librosa.feature.spectral_centroid(y=x,sr=sr)
-        spec_bw = librosa.feature.spectral_bandwidth(y=x,sr=sr)
+        ave_energy = np.average(x*x) 
+        # tổng bình phương giá trị tin hiệu chia cho tổng số mẫu
+        rms = librosa.feature.rms(y=x) 
+        # căn bậc hai của tổng bình phương của các giá trị tín hiệu chia cho tổng số mẫu
+        spec_cent = librosa.feature.spectral_centroid(y=x,sr=sr) 
+        # tổng của (tần số f * biên độ của phổ) / tổng biên độ của phổ
+        spec_bw = librosa.feature.spectral_bandwidth(y=x,sr=sr) 
+        # căn bậc hai [ tổng bình phương chênh lệch của tần số với tần số trung tâm * giá trị phổ tại 1 frame  / tổng các giá trị phổ ]
         rolloff = librosa.feature.spectral_rolloff(y=x,sr=sr)
-        zcr = librosa.feature.zero_crossing_rate(y=x)
+        # tỉ lệ phần trăm tương ứng nhân tổng bình phương các năng lượng tại tần số
+        zcr = librosa.feature.zero_crossing_rate(y=x) 
+        #(1/2)*(1/N)*∑(n=1 to N-1)|sign[x(n)] - sign[x(n-1)]|
         
         vector = np.array([[ave_energy]*len(rms[0]), self.normalize(rms[0]), self.normalize(zcr[0]),
                            self.normalize(spec_cent[0]), self.normalize(spec_bw[0]), self.normalize(rolloff[0])])

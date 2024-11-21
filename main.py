@@ -16,7 +16,7 @@ while True:
 
             queries = Queries(sounds=sounds)
 
-            extract = Extract(normalize_path="normalize.obj", sound_path=file_path)
+            extract = Extract(sound_path=file_path)
             vector = extract.features()
             q = Sound(features=vector, path=file_path)
             
